@@ -1,10 +1,10 @@
-const MEURAL_IP = "192.168.107.222";
+const MEURAL_IP = "192.168.107.222"; // Ensure this is your current IP
 
-// Helper for clean UI feedback
-function showStatus(title, message) {
+// Helper for clean notifications
+function notify(title, message) {
   chrome.notifications.create({
     type: "basic",
-    iconUrl: "icon128.png",
+    iconUrl: "icon.png", // Ensure you have an icon file in your folder
     title: title,
     message: message,
     priority: 2
@@ -19,40 +19,28 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
+chrome.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === "sendToMeural") {
-    const imageUrl = info.srcUrl;
-    console.log("Attempting to send:", imageUrl);
-
     try {
-      // 1. Fetch the image
-      const response = await fetch(imageUrl);
-      if (!response.ok) throw new Error("Could not fetch source image");
+      const response = await fetch(info.srcUrl);
       const blob = await response.blob();
 
-      // 2. Prepare for Meural
-      // Some Meural firmware versions prefer 'image' and some prefer 'file'
       const formData = new FormData();
-      formData.append('image', blob, 'image.jpg'); 
+      formData.append('photo', blob, 'image.jpg');
 
-      // 3. POST to Meural
-      const uploadResponse = await fetch(`http://${MEURAL_IP}/remote/control_command/upload_and_display`, {
+      const uploadUrl = `http://${MEURAL_IP}/remote/postcard/`;
+
+      await fetch(uploadUrl, {
         method: 'POST',
         body: formData,
-        // CRITICAL: Do NOT set Content-Type header manually; 
-        // the browser needs to set the boundary for multipart/form-data itself.
+        mode: 'no-cors' 
       });
 
-      if (uploadResponse.ok) {
-        showStatus("Success!", "Artwork sent to your Meural.");
-      } else {
-        const statusText = await uploadResponse.text();
-        console.error("Meural Error:", statusText);
-        showStatus("Meural Rejected", `Status: ${uploadResponse.status}`);
-      }
+      // Notify the user of success
+      notify("Meural Canvas", "Image sent to your frame successfully.");
+      
     } catch (error) {
-      showStatus("Connection Error", "Is the Meural IP correct and awake?");
-      console.error("Full Error:", error);
+      notify("Meural Error", "Could not reach the Canvas. Check your IP.");
     }
   }
 });

@@ -14,5 +14,12 @@
   },
   "background": {
     "service_worker": "background.js"
+  },
+  "permissions": ["contextMenus", "storage", "notifications"],
+    "externally_connectable": {
+    "matches": [
+      "http://gabimedia.duckdns.org/*",
+      "http://192.168.1.30/*"
+    ]
   }
 }
