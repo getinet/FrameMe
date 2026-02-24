@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Send to Meural Local",
+  "version": "1.1",
+  "permissions": ["contextMenus", "storage", "notifications"],
+  "host_permissions": [
+    "http://192.168.1.30/*",
+    "http://192.168.107.222/*",
+    "http://gabimedia.duckdns.org/*",
+    "<all_urls>"
+  ],
+  "icons": {
+    "128": "icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
