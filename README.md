@@ -7,6 +7,15 @@ FrameMe is a simple Google Chrome extension that allows you to instantly send im
 - **One-Click Send**: Right-click on any image online and choose "FrameMe" from the context menu to display it instantly on your Meural.
 - **Connection Validation**: Automatically pings your inserted IP address to ensure your Meural Canvas is accessible before saving.
 
+## Supported File Types
+FrameMe supports the image formats officially compatible with the Meural Canvas:
+- `.jpg` / `.jpeg`
+- `.png`
+- `.bmp`
+- `.svg`
+- `.gif`
+- `.heic`
+
 ## Installation
 
 To install this extension locally (as an unpacked extension in Developer mode), follow these steps:
@@ -36,7 +45,7 @@ To install this extension locally (as an unpacked extension in Developer mode), 
 ## Troubleshooting
 
 - **Connection failed**: Ensure your computer and your Meural Canvas are on the exact same local Wi-Fi network. Check the IP address on your frame again to make sure it hasn't changed.
-- **Image doesn't send**: Some websites use complex image formats or block direct image access. Try finding a standard JPG or PNG image.
+- **Image doesn't send**: Some websites use complex image formats or block direct image access. Try finding a supported image format (like JPG or PNG).
 
 ---
 *Made with ❤️ in Oakland*
