@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FrameMe - Crop Image</title>
+    <link rel="stylesheet" href="cropper.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: sans-serif;
+            background: #121212;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            flex-grow: 1;
+            background: #000;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .toolbar button {
+            padding: 8px 12px;
+            background: #333;
+            font-size: 14px;
+        }
+        .toolbar button:hover {
+            background: #444;
+        }
+        .actions {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        button:disabled {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <h2>Adjust for Meural (9:16)</h2>
+    <div class="container">
+        <img id="image-to-crop">
+    </div>
+    <div class="toolbar">
+        <button id="zoom-in-btn" title="Zoom In">+</button>
+        <button id="zoom-out-btn" title="Zoom Out">−</button>
+        <button id="move-mode-btn" title="Move Mode">✥ Move</button>
+        <button id="crop-mode-btn" title="Crop Mode">◩ Crop</button>
+        <button id="reset-btn" title="Reset">↺ Reset</button>
+    </div>
+    <div class="actions">
+        <button id="send-btn">Send to Meural</button>
+    </div>
+    <script src="cropper.min.js"></script>
+    <script src="cropper.js"></script>
+</body>
+</html>
