@@ -9,12 +9,9 @@ function notify(title, message) {
   });
 }
 
-function getMeuralIp() {
-  return new Promise((resolve) => {
-    chrome.storage.sync.get('meuralIp', (data) => {
-      resolve(data.meuralIp || "0.0.0.0"); // Fallback to default if not set
-    });
-  });
+async function getMeuralIp() {
+  const data = await chrome.storage.sync.get('meuralIp');
+  return data.meuralIp || null;
 }
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -29,19 +26,35 @@ chrome.contextMenus.onClicked.addListener(async (info) => {
   if (info.menuItemId === "sendToMeural") {
     try {
       const MEURAL_IP = await getMeuralIp();
+      if (!MEURAL_IP) {
+        notify("Configuration Required", "Please set your Meural IP in the extension settings.");
+        return;
+      }
+
       const response = await fetch(info.srcUrl);
+      if (!response.ok) {
+        throw new Error("Could not fetch source image.");
+      }
+      
       const blob = await response.blob();
 
+      // Try to determine extension from URL or mime-type
+      const extension = blob.type.split('/')[1] || 'jpg';
+      const fileName = `image.${extension}`;
+
       const formData = new FormData();
-      formData.append('photo', blob, 'image.jpg');
+      formData.append('photo', blob, fileName);
 
       const uploadUrl = `http://${MEURAL_IP}/remote/postcard/`;
 
-      await fetch(uploadUrl, {
+      const uploadResponse = await fetch(uploadUrl, {
         method: 'POST',
-        body: formData,
-        mode: 'no-cors'
+        body: formData
       });
+
+      if (!uploadResponse.ok) {
+        throw new Error(`Upload failed with status: ${uploadResponse.status}`);
+      }
 
       // Notify the user of success
       notify("Meural Canvas", "Image sent to your frame successfully.");

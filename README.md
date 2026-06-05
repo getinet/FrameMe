@@ -47,5 +47,6 @@ To install this extension locally (as an unpacked extension in Developer mode), 
 - **Connection failed**: Ensure your computer and your Meural Canvas are on the exact same local Wi-Fi network. Check the IP address on your frame again to make sure it hasn't changed.
 - **Image doesn't send**: Some websites use complex image formats or block direct image access. Try finding a supported image format (like JPG or PNG).
 
+
 ---
 *Made with ❤️ in Oakland*
